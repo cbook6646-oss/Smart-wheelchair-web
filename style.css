@@ -1,0 +1,547 @@
+/* ============================================
+   ROOT VARIABLES — Mission Control theme
+   ============================================ */
+:root {
+  --bg-deep: #0A0E1A;
+  --bg-panel: #0F1729;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-border: rgba(0, 217, 255, 0.15);
+  --cyan: #00D9FF;
+  --amber: #FFB800;
+  --red: #FF3B5C;
+  --text-primary: #E8EDF5;
+  --text-muted: #7A8BA6;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.screen {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ============================================
+   SPLASH SCREEN
+   ============================================ */
+#splash-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #10192E 0%, var(--bg-deep) 70%);
+  text-align: center;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#splash-screen.hidden {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 32px;
+  animation: fadeInUp 0.8s ease both;
+}
+
+.splash-logo {
+  color: var(--cyan);
+  filter: drop-shadow(0 0 14px rgba(0, 217, 255, 0.5));
+  animation: pulseScale 2.4s ease-in-out infinite;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 3px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.splash-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 260px;
+}
+
+.splash-meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  letter-spacing: 1px;
+}
+
+.splash-loader {
+  width: 160px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.splash-loader-bar {
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: loaderSlide 1.2s ease-in-out infinite;
+}
+
+/* ============================================
+   MAIN APP ENTRANCE
+   ============================================ */
+#app {
+  animation: fadeInUp 0.6s ease both;
+}
+
+/* ============================================
+   TOP BAR
+   ============================================ */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px 12px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.brand-tag {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.connect-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transform: scale(1);
+  transition: transform 0.15s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.connect-btn:active {
+  transform: scale(0.96);
+}
+
+.connect-btn .connect-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.connect-btn[data-state="connected"] {
+  border-color: rgba(0, 217, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.25);
+}
+
+.connect-btn[data-state="connected"] .connect-dot {
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+/* ============================================
+   STATUS STRIP
+   ============================================ */
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.status-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--cyan);
+}
+
+.status-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-value {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- Radar sweep behind connection status ---------- */
+#status-connection::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  height: 140%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 217, 255, 0.25) 25deg, transparent 50deg);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#status-connection.scanning::before {
+  opacity: 1;
+  animation: radarSpin 2.2s linear infinite;
+}
+
+/* ---------- Warning states ---------- */
+.status-card.warning-amber .status-icon,
+.status-card.warning-amber .status-value {
+  color: var(--amber);
+}
+
+.status-card.warning-red .status-icon,
+.status-card.warning-red .status-value {
+  color: var(--red);
+  animation: blink 0.8s ease-in-out infinite;
+}
+
+/* ---------- Data update pulse ---------- */
+.status-value.pulse {
+  animation: valuePulse 0.35s ease;
+}
+
+/* ============================================
+   ROBOT STATUS BANNER
+   ============================================ */
+.robot-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 16px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.pulse-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: blink 1.6s ease-in-out infinite;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.robot-status-banner.state-alert {
+  border-color: rgba(255, 184, 0, 0.4);
+  background: rgba(255, 184, 0, 0.06);
+}
+
+.robot-status-banner.state-alert .pulse-dot {
+  background: var(--amber);
+  box-shadow: 0 0 8px var(--amber);
+}
+
+.robot-status-banner.state-stop {
+  border-color: rgba(255, 59, 92, 0.4);
+  background: rgba(255, 59, 92, 0.06);
+}
+
+.robot-status-banner.state-stop .pulse-dot {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+}
+
+/* ============================================
+   MODE SWITCH
+   ============================================ */
+.mode-switch {
+  display: flex;
+  margin: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.mode-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 10px 0;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 10px;
+  transform: scale(1);
+  transition: transform 0.15s ease, background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.mode-btn:active {
+  transform: scale(0.96);
+}
+
+.mode-btn.active {
+  background: var(--cyan);
+  color: #001820;
+  box-shadow: 0 0 16px rgba(0, 217, 255, 0.4);
+}
+
+/* ============================================
+   PANELS
+   ============================================ */
+.panel {
+  padding: 8px 16px 24px;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* ---------- D-PAD ---------- */
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  grid-template-rows: repeat(3, 72px);
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.dpad-btn {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.dpad-btn svg {
+  width: 26px;
+  height: 26px;
+}
+
+.dpad-btn:active {
+  background: rgba(0, 217, 255, 0.18);
+  transform: scale(0.94);
+}
+
+.dpad-up { grid-column: 2; grid-row: 1; }
+.dpad-left { grid-column: 1; grid-row: 2; }
+.dpad-center { grid-column: 2; grid-row: 2; color: var(--text-muted); }
+.dpad-right { grid-column: 3; grid-row: 2; }
+.dpad-down { grid-column: 2; grid-row: 3; }
+
+/* ---------- EMERGENCY STOP ---------- */
+.emergency-stop {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--red), #C4002E);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  box-shadow: 0 0 24px rgba(255, 59, 92, 0.4);
+  transition: transform 0.15s ease;
+}
+
+.emergency-stop:active {
+  transform: scale(0.96);
+}
+
+/* ---------- DESTINATION GRID ---------- */
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dest-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transform: scale(1);
+  transition: transform 0.15s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.dest-card:active {
+  transform: scale(0.96);
+}
+
+.dest-card svg {
+  width: 28px;
+  height: 28px;
+  color: var(--cyan);
+}
+
+.dest-card.selected {
+  border-color: var(--cyan);
+  background: rgba(0, 217, 255, 0.08);
+  box-shadow: 0 0 16px rgba(0, 217, 255, 0.25);
+}
+
+.dest-card.selected svg {
+  animation: pulseScale 1.2s ease-in-out infinite;
+}
+
+.dest-card:nth-child(5) {
+  grid-column: span 2;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* ---------- START ROUTE BUTTON ---------- */
+.start-route-btn {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--text-muted);
+  border-radius: 16px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  transition: all 0.25s ease;
+}
+
+.start-route-btn:not(:disabled) {
+  background: var(--cyan);
+  color: #001820;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.35);
+}
+
+.start-route-btn:disabled {
+  opacity: 0.5;
+}
+
+/* ============================================
+   GLOBAL BUTTON BEHAVIOR
+   ============================================ */
+button {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseScale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes loaderSlide {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes radarSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes valuePulse {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
